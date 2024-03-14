@@ -14,8 +14,14 @@ public class Main : MonoBehaviour
     private bool countingUp = true;
     private bool powerBarFixed = false; // パワーバーカウントを固定するかどうかのフラグ
 
+    private Text _numText;
+
     void Start()
     {
+        // テキストコンポーネントの取得
+        _numText = GetComponent<Text>();
+
+
         if (botan != null)
         {
             botan.onClick.AddListener(OnClickButton);
@@ -164,6 +170,17 @@ public class Main : MonoBehaviour
                 }
             }
         }
+
+        // PowerBarCountの表示
+        //  if (_numText != null)
+        //  {
+        //      _numText.text = "PowerBarCount: " + PowerBarCount.ToString("f2");
+        //  }
+        //   else
+        //  {
+        //      Debug.LogError("Text component is missing!");
+        //  }
+
 
         // PowerBarCountの値に応じてPowerGuideのY座標を更新
         float offsetY = Mathf.Lerp(210f, 330f, (float)PowerBarCount / 120f);
