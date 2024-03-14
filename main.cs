@@ -14,14 +14,10 @@ public class Main : MonoBehaviour
     private bool countingUp = true;
     private bool powerBarFixed = false; // パワーバーカウントを固定するかどうかのフラグ
 
-    private Text _numText;
+    public Text powerBarCountView;
 
     void Start()
     {
-        // テキストコンポーネントの取得
-        _numText = GetComponent<Text>();
-
-
         if (botan != null)
         {
             botan.onClick.AddListener(OnClickButton);
@@ -146,10 +142,21 @@ public class Main : MonoBehaviour
 
     void Update()
     {
-        if (!powerBarFixed) // パワーバーカウントが固定されていない場合のみ更新
+        // PowerBarCountの値をテキストオブジェクトに表示
+        if (powerBarCountView != null)
+        {
+            powerBarCountView.text = "PowerBarCount: " + PowerBarCount.ToString("f2");
+        }
+        else
+        {
+            Debug.LogError("powerBarCountView is not assigned!");
+        }
+    
+        // パワーバーカウントが固定されていない場合のみ移動処理を実行
+        if (!powerBarFixed)
         {
             count += 1;
-    
+        
             if (count % 1 == 0)
             {
                 if (countingUp)
@@ -169,23 +176,12 @@ public class Main : MonoBehaviour
                     }
                 }
             }
+    
+            // PowerGuideの移動処理
+            float offsetY = Mathf.Lerp(210f, 330f, (float)PowerBarCount / 120f);
+            powerGuide.transform.position = new Vector3(powerGuide.transform.position.x, offsetY, powerGuide.transform.position.z);
         }
-
-        // PowerBarCountの表示
-        //  if (_numText != null)
-        //  {
-        //      _numText.text = "PowerBarCount: " + PowerBarCount.ToString("f2");
-        //  }
-        //   else
-        //  {
-        //      Debug.LogError("Text component is missing!");
-        //  }
-
-
-        // PowerBarCountの値に応じてPowerGuideのY座標を更新
-        float offsetY = Mathf.Lerp(210f, 330f, (float)PowerBarCount / 120f);
-        powerGuide.transform.position = new Vector3(powerGuide.transform.position.x, offsetY, powerGuide.transform.position.z);
-
+    
         // デバッグログを追加
         Debug.Log("powerBarFixed: " + powerBarFixed);
     }
