@@ -150,13 +150,14 @@ public class Main : MonoBehaviour
         else
         {
             Debug.LogError("powerBarCountView is not assigned!");
+            return;
         }
-    
-        // パワーバーカウントが固定されていない場合のみ移動処理を実行
+
+        // パワーバーカウントが固定されていない場合のみ更新
         if (!powerBarFixed)
         {
             count += 1;
-        
+    
             if (count % 1 == 0)
             {
                 if (countingUp)
@@ -176,12 +177,17 @@ public class Main : MonoBehaviour
                     }
                 }
             }
-    
-            // PowerGuideの移動処理
-            float offsetY = Mathf.Lerp(210f, 330f, (float)PowerBarCount / 120f);
-            powerGuide.transform.position = new Vector3(powerGuide.transform.position.x, offsetY, powerGuide.transform.position.z);
         }
-    
+        else
+        {
+            // パワーバーカウントが固定されている場合、移動を停止する
+            return;
+        }
+
+        // PowerGuideの移動処理
+        float offsetY = Mathf.Lerp(210f, 330f, (float)PowerBarCount / 120f);
+        powerGuide.transform.position = new Vector3(powerGuide.transform.position.x, offsetY, powerGuide.transform.position.z);
+
         // デバッグログを追加
         Debug.Log("powerBarFixed: " + powerBarFixed);
     }
