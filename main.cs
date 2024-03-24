@@ -86,6 +86,25 @@ public class Main : MonoBehaviour
         PunchPower = PowerBarCount;
         SetPunchPowerMessage(PunchPower);
         SetpunchPowerImage(PunchPower);
+
+        // ゲームの終了処理を遅延実行
+        Invoke("EndGame", 3f); // 3秒後にEndGameメソッドを呼び出す
+    }
+
+    // ゲームの終了処理
+    void EndGame()
+    {
+        // ゲーム終了メッセージを表示
+        Debug.Log("ゲーム終了処理を実行します。");
+        
+        // ゲーム終了時の画面表示などがあればここに追加する
+    
+        // ゲームの終了
+    #if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+    #else
+        Application.Quit();
+    #endif
     }
 
     void SetPunchPowerMessage(int punchPower)
