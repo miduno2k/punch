@@ -64,7 +64,7 @@ public class Main : MonoBehaviour
         else
         {
             // PowerGuideの初期位置のY座標を調整
-            powerGuide.transform.position = new Vector3(powerGuide.transform.position.x, 30f, powerGuide.transform.position.z);
+            powerGuide.transform.position = new Vector3(powerGuide.transform.position.x, 210f, powerGuide.transform.position.z);
         }
 
          // powerBarCountViewの初期化
