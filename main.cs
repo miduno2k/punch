@@ -66,12 +66,22 @@ public class Main : MonoBehaviour
             // PowerGuideの初期位置のY座標を調整
             powerGuide.transform.position = new Vector3(powerGuide.transform.position.x, 30f, powerGuide.transform.position.z);
         }
-    }
+
+         // powerBarCountViewの初期化
+         powerBarCountView = GameObject.Find("powerBarCountView").GetComponent<Text>();
+         if (powerBarCountView == null)
+         {
+             Debug.LogError("powerBarCountView component is missing!");
+         }
+      }
 
     void OnClickButton()
     {
         // ボタンが押されたらパワーバーカウントを固定する
         powerBarFixed = true;
+
+        // デバッグログを追加
+        Debug.LogError("powerBarFixed: " + powerBarFixed);
 
         PunchPower = PowerBarCount;
         SetPunchPowerMessage(PunchPower);
@@ -142,16 +152,15 @@ public class Main : MonoBehaviour
 
     void Update()
     {
+        // デバッグログを追加
+        Debug.Log("powerBarFixed: " + powerBarFixed);
+
         // PowerBarCountの値をテキストオブジェクトに表示
-        if (powerBarCountView != null)
-        {
-            powerBarCountView.text = "PowerBarCount: " + PowerBarCount.ToString("f2");
-        }
-        else
-        {
-            Debug.LogError("powerBarCountView is not assigned!");
-            return;
-        }
+        powerBarCountView.text = "PowerBarCount: " + PowerBarCount.ToString("f2");
+
+        // PowerGuideの移動処理
+        float offsetY = Mathf.Lerp(210f, 330f, (float)PowerBarCount / 120f);
+        powerGuide.transform.position = new Vector3(powerGuide.transform.position.x, offsetY, powerGuide.transform.position.z);
 
         // パワーバーカウントが固定されていない場合のみ更新
         if (!powerBarFixed)
@@ -178,17 +187,9 @@ public class Main : MonoBehaviour
                 }
             }
         }
-        else
-        {
-            // パワーバーカウントが固定されている場合、移動を停止する
-            return;
-        }
-
-        // PowerGuideの移動処理
-        float offsetY = Mathf.Lerp(210f, 330f, (float)PowerBarCount / 120f);
-        powerGuide.transform.position = new Vector3(powerGuide.transform.position.x, offsetY, powerGuide.transform.position.z);
 
         // デバッグログを追加
         Debug.Log("powerBarFixed: " + powerBarFixed);
+
     }
 }
